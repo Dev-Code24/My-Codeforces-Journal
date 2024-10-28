@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "My Codeforces Journal",
+  "version": "1.0",
+  "description": "A Chrome extension to manage Codeforces problems.",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "icon.png"
+  },
+  "permissions": ["tabs", "activeTab", "storage", "scripting"],
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://codeforces.com/*"],
+      "js": ["assets/contentScript.js"]
+    }
+  ]
+}
