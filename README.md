@@ -3,6 +3,7 @@
 **My Codeforces Journal** is a Chrome extension that helps Codeforces users track the problems they've solved. With just a click, the extension stores the details of the current problem to a Google Spreadsheet that the user has connected. This makes it easy to maintain a personal log of problems solved over time.
 
 ## Contribute
+
 Want to contribute to this chrom-extension? Go to this repo :[My Codeforces Journal Development](https://github.com/Dev-Code24/My-Codeforces-Journal-Development)
 
 ## Features
@@ -148,3 +149,22 @@ This extension requires the following permissions:
 - **Active Tab**: To access the URL of the current tab when saving the problem.
 - **Storage**: To store your connected spreadsheet details.
 - **Scripting**: To run JavaScript
+
+## Common Errors
+
+### 1. **"Error! Something bad happened!" when submitting Codeforces ID**
+
+- **Cause**: This typically occurs if a non-existing Codeforces ID was submitted.
+- **Solution**: Double-check the ID and ensure it's correct.
+
+### 2. **"APPSCRIPT NOT FOUND!" when submitting AppScript URL**
+
+- **Cause**: This error generally means the AppScript URL provided is incorrect.
+- **Solution**: Verify the URL and use the correct AppScript URL.
+- **Additional Tip**: This error may also appear if your AppScript Project hasn’t been properly authorized. To ensure proper authorization:
+  - During the spreadsheet setup, deploy your AppScript Project twice; the second deployment will help confirm the AppScript Project is fully authorized.
+
+### 3. **"Solve the problem first, then submit!" when submitting a problem to the Spreadsheet**
+
+- **Cause**: This occurs if the problem you’re trying to add has not been solved within your last 40 submissions on Codeforces.
+- **Solution**: Ensure you’ve solved the problem recently. If not, attempt it on Codeforces before adding it to the Spreadsheet.
