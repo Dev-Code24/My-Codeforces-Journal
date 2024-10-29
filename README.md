@@ -20,6 +20,7 @@ Before you can use the extension, make sure you have the following:
 
 - A Google Spreadsheet where the problems will be stored.
 - The Codeforces Journal Chrome extension installed and authorized to access your spreadsheet.
+- Make sure to read [COMMON ERRORS SECTION](#common-errors) at the end of this.
 
 ### Installation
 
