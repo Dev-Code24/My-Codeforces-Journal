@@ -2,6 +2,9 @@
 
 **My Codeforces Journal** is a Chrome extension that helps Codeforces users track the problems they've solved. With just a click, the extension stores the details of the current problem to a Google Spreadsheet that the user has connected. This makes it easy to maintain a personal log of problems solved over time.
 
+![video](https://github.com/user-attachments/assets/c59884bf-e87a-4a47-a028-e18eaf783d4a)
+
+
 ## Contribute
 
 Want to contribute to this chrom-extension? Go to this repo :[My Codeforces Journal Development](https://github.com/Dev-Code24/My-Codeforces-Journal-Development)
