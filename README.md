@@ -14,6 +14,8 @@ Want to contribute to this chrom-extension? Go to this repo :[My Codeforces Jour
 
 ## Getting Started
 
+Watch this youtube video: [How to get started with My Codeforces Journal](https://youtu.be/1vlqXxdEqFI)
+
 ### Prerequisites
 
 Before you can use the extension, make sure you have the following:
@@ -37,12 +39,24 @@ Before you can use the extension, make sure you have the following:
 2. Name the Spreadsheet as you prefer.
 3. Click on the "Extensions" menu, and then click on "App Script."
 4. Click on "Untitled" and rename this App Script file to match the name of your Spreadsheet.
-5. Copy the code below and paste it into the App Script editor.
+5. Copy the code below and paste it into the App Script editor, and save by keypressing `cmd + S`/`ctrl + S`
 6. Click on the "Deploy" button in the top right and choose "New Deployment."
-7. Add a description of your choice.
+7. Add a description of your choice ( could be same as your SpreadSheet's name ).
 8. Set "Who has access" to "Anyone."
-9. Click "Deploy" and authorize the App Script.
-10. Copy the script URL, as this is your AppScript URL, and save it for use in the extension.
+9. Click "Deploy" and authorize the App Script,
+10. Upon clicking authorize, select the Google Account you used to create the SpreadSheet, and then you'll be shown a "Google hasn't verified this app" message
+11. Click on Advanced at the bottom and,
+12. Click on the name of the AppScript project shown, then click Allow
+13. Redeploy the AppScript project just to make sure your project has been authorized properly
+14. Copy the script URL, as this is your AppScript URL, and save it for later use in the extension.
+
+#### How to Re-deploy AppScript Project
+
+1. Again click on "Deploy" button
+2. Select "Manage deployments", and then a modal will show up
+3. Click on the "Edit" button ( the Pen icon ), and now the "deploy" button at the bottom will become active
+4. Click on deploy
+5. If there exists some error with authorization, then you will be shown the authorize button again, or else you'll be shown to copy the script URL
 
 #### App Script Code
 
