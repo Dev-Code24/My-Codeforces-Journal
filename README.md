@@ -6,7 +6,54 @@
 
 ## Contribute
 
-Want to contribute to this chrom-extension? Go to this repo :[My Codeforces Journal Development](https://github.com/Dev-Code24/My-Codeforces-Journal-Development)
+Want to contribute to this Chrome extension? Check out the repository here: [My Codeforces Journal Development](https://github.com/Dev-Code24/My-Codeforces-Journal-Development).
+
+### Steps to Get Started:
+
+1. **Clone the Repository**  
+   Clone this repo to your local machine:
+
+   ```bash
+   git clone https://github.com/Dev-Code24/My-Codeforces-Journal-Development.git
+   ```
+
+2. **Navigate to the Repository Directory**  
+   Open the directory where the repo is cloned and ensure you are at the root:
+
+   ```bash
+   cd My-Codeforces-Journal-Development
+   ```
+
+3. **Create a Development Environment File**  
+   Run the following command to create an `.env.development` file:
+
+   ```bash
+   touch .env.development
+   ```
+
+4. **Add Environment Variables**  
+   Open the `.env.development` file and add the following configuration:
+
+   ```env
+   VITE_DEV_OR_PROD="development"
+   DEV_CODEFORCES_ID="your codeforces profile URL"
+   DEV_APPSCRIPT_URL="your appscript URL"
+   ```
+
+   - Replace `your codeforces profile URL` with the URL of your Codeforces profile.
+   - Replace `your appscript URL` with your Apps Script URL.
+
+5. **Run the Development Server**  
+   Start the development server:
+
+   ```bash
+   npm run dev:chrome
+   ```
+
+6. **Load the Extension in Chrome/Brave**
+   - Open Chrome or Brave and go to `chrome://extensions`.
+   - Turn on **Developer Mode** (toggle in the top-right corner).
+   - Click on **Load unpacked** and select the `dist` folder located in the root of the repo you cloned.
 
 ## Features
 
