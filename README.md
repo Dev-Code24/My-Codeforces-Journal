@@ -4,6 +4,17 @@
 
 ![video](https://github.com/user-attachments/assets/c59884bf-e87a-4a47-a028-e18eaf783d4a)
 
+## New Version 1.0.1
+The new update adds the following feature:
+1. Feature to update the problem details of problems already added to your spreadsheet
+
+Requirements for this new update:
+1. Update AppScript
+2. New Version of chrome-extension
+
+https://github.com/user-attachments/assets/84484cb1-668b-4abb-afa9-b84a803c4d82
+
+
 ## Contribute
 
 Want to contribute to this Chrome extension? Check out the repository here: [My Codeforces Journal Development](https://github.com/Dev-Code24/My-Codeforces-Journal-Development).
@@ -119,7 +130,8 @@ function doPost(e) {
     try {
       data = JSON.parse(e.postData.contents);
     } catch (parseError) {
-      return ContentService.createTextOutput('{"status":"error","message":"Invalid JSON format."}').setMimeType(ContentService.MimeType.TEXT);
+      return ContentService.createTextOutput('{"status":"error","message":"Invalid JSON format."}')
+        .setMimeType(ContentService.MimeType.TEXT);
     }
 
     // Check if the request is to check for an existing problem
@@ -130,10 +142,12 @@ function doPost(e) {
         .flat();
       const problemExists = problemNameColumn.includes(data.problemName);
 
-      return ContentService.createTextOutput(JSON.stringify({ status: "success", exists: problemExists })).setMimeType(ContentService.MimeType.JSON);
+      return ContentService.createTextOutput(
+        JSON.stringify({ status: "success", exists: problemExists })
+      ).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // (Your existing 'initialize' and 'addProblem' logic here)
+    // Existing 'initialize' and 'addProblem' logic here
     if (data.action === "initialize") {
       var headers = ["Rating", "Problem", "Status", "Remarks", "Date", "Takeaway", "Topics"];
       if (sheet.getLastRow() === 0 || sheet.getRange("A1").getValue() === "") {
@@ -171,7 +185,7 @@ function doPost(e) {
           '{"status":"success","message":"Headers initialized with formatting, custom column widths, and row added."}'
         ).setMimeType(ContentService.MimeType.TEXT);
       } else {
-        return ContentService.createTextOutput('{"status":"success","message":"Headers already exist."}').setMimeType(ContentService.MimeType.TEXT);
+        return ContentService.createTextOutput('{"status":"success","message":"Verified !."}').setMimeType(ContentService.MimeType.TEXT);
       }
     } else if (data.action === "addProblem") {
       try {
@@ -193,10 +207,62 @@ function doPost(e) {
         );
       }
     }
+
+    // New feature: Update problem data
+    if (data.action === "updateProblem") {
+      const rows = sheet.getDataRange().getValues();
+      const problemName = data.problemName;
+
+      // Find the row with the matching problem name
+      for (let i = 0; i < rows.length; i++) {
+        if (rows[i][1] === problemName) { // Assuming column B has the problem name
+          sheet.getRange(i + 1, 3).setValue(data.problemStatus); // Update "Status" in column C
+          sheet.getRange(i + 1, 4).setValue(data.remarks);       // Update "Remarks" in column D
+          sheet.getRange(i + 1, 6).setValue(data.takeaways);     // Update "Takeaway" in column F
+
+          return ContentService.createTextOutput(
+            JSON.stringify({ status: "success", message: "Problem data updated successfully." })
+          ).setMimeType(ContentService.MimeType.JSON);
+        }
+      }
+
+      return ContentService.createTextOutput(
+        JSON.stringify({ status: "error", message: "Problem not found." })
+      ).setMimeType(ContentService.MimeType.JSON);
+    }
   } catch (error) {
-    return ContentService.createTextOutput('{"status":"error","message":"' + error.message + '"}').setMimeType(ContentService.MimeType.TEXT);
+    return ContentService.createTextOutput('{"status":"error","message":"' + error.message + '"}')
+      .setMimeType(ContentService.MimeType.TEXT);
   }
 }
+
+// New feature: Handle GET requests for fetching problem data
+function doGet(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+  const problemName = e.parameter.problemName;
+
+  const data = sheet.getDataRange().getValues();
+
+  // Find the row with the matching problem name
+  const row = data.find((row) => row[1] === problemName); // Assuming column B has the problem name
+  if (row) {
+    return ContentService.createTextOutput(
+      JSON.stringify({
+        status: "success",
+        problem: {
+          status: row[2], // Assuming "Status" is column C
+          remarks: row[3], // Assuming "Remarks" is column D
+          takeaways: row[5], // Assuming "Takeaway" is column F
+        },
+      })
+    ).setMimeType(ContentService.MimeType.JSON);
+  } else {
+    return ContentService.createTextOutput(
+      JSON.stringify({ status: "error", message: "Problem not found." })
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
 ```
 
 ## Usage
