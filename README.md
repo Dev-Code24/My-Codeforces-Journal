@@ -5,15 +5,21 @@
 ![video](https://github.com/user-attachments/assets/c59884bf-e87a-4a47-a028-e18eaf783d4a)
 
 ## New Version 1.0.1
+
 The new update adds the following feature:
+
 1. Feature to update the problem details of problems already added to your spreadsheet
 
 Requirements for this new update:
+
 1. Update AppScript
 2. New Version of chrome-extension
 
-https://github.com/user-attachments/assets/84484cb1-668b-4abb-afa9-b84a803c4d82
+## How to update AppScript:
 
+- Your web app url remains the same even after updating your deploy
+
+https://github.com/user-attachments/assets/84484cb1-668b-4abb-afa9-b84a803c4d82
 
 ## Contribute
 
@@ -130,8 +136,7 @@ function doPost(e) {
     try {
       data = JSON.parse(e.postData.contents);
     } catch (parseError) {
-      return ContentService.createTextOutput('{"status":"error","message":"Invalid JSON format."}')
-        .setMimeType(ContentService.MimeType.TEXT);
+      return ContentService.createTextOutput('{"status":"error","message":"Invalid JSON format."}').setMimeType(ContentService.MimeType.TEXT);
     }
 
     // Check if the request is to check for an existing problem
@@ -142,9 +147,7 @@ function doPost(e) {
         .flat();
       const problemExists = problemNameColumn.includes(data.problemName);
 
-      return ContentService.createTextOutput(
-        JSON.stringify({ status: "success", exists: problemExists })
-      ).setMimeType(ContentService.MimeType.JSON);
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", exists: problemExists })).setMimeType(ContentService.MimeType.JSON);
     }
 
     // Existing 'initialize' and 'addProblem' logic here
@@ -215,24 +218,24 @@ function doPost(e) {
 
       // Find the row with the matching problem name
       for (let i = 0; i < rows.length; i++) {
-        if (rows[i][1] === problemName) { // Assuming column B has the problem name
+        if (rows[i][1] === problemName) {
+          // Assuming column B has the problem name
           sheet.getRange(i + 1, 3).setValue(data.problemStatus); // Update "Status" in column C
-          sheet.getRange(i + 1, 4).setValue(data.remarks);       // Update "Remarks" in column D
-          sheet.getRange(i + 1, 6).setValue(data.takeaways);     // Update "Takeaway" in column F
+          sheet.getRange(i + 1, 4).setValue(data.remarks); // Update "Remarks" in column D
+          sheet.getRange(i + 1, 6).setValue(data.takeaways); // Update "Takeaway" in column F
 
-          return ContentService.createTextOutput(
-            JSON.stringify({ status: "success", message: "Problem data updated successfully." })
-          ).setMimeType(ContentService.MimeType.JSON);
+          return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "Problem data updated successfully." })).setMimeType(
+            ContentService.MimeType.JSON
+          );
         }
       }
 
-      return ContentService.createTextOutput(
-        JSON.stringify({ status: "error", message: "Problem not found." })
-      ).setMimeType(ContentService.MimeType.JSON);
+      return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Problem not found." })).setMimeType(
+        ContentService.MimeType.JSON
+      );
     }
   } catch (error) {
-    return ContentService.createTextOutput('{"status":"error","message":"' + error.message + '"}')
-      .setMimeType(ContentService.MimeType.TEXT);
+    return ContentService.createTextOutput('{"status":"error","message":"' + error.message + '"}').setMimeType(ContentService.MimeType.TEXT);
   }
 }
 
@@ -257,12 +260,11 @@ function doGet(e) {
       })
     ).setMimeType(ContentService.MimeType.JSON);
   } else {
-    return ContentService.createTextOutput(
-      JSON.stringify({ status: "error", message: "Problem not found." })
-    ).setMimeType(ContentService.MimeType.JSON);
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Problem not found." })).setMimeType(
+      ContentService.MimeType.JSON
+    );
   }
 }
-
 ```
 
 ## Usage
