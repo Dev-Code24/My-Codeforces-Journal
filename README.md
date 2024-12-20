@@ -15,11 +15,13 @@ Requirements for this new update:
 1. Update AppScript
 2. New Version of chrome-extension
 
-## How to update AppScript:
+## How to update your AppScript Code and deploy it
 
-- Your web app url remains the same even after updating your deploy
+https://github.com/user-attachments/assets/7d228120-7600-4483-a582-53561eefb3c1
 
-https://github.com/user-attachments/assets/84484cb1-668b-4abb-afa9-b84a803c4d82
+## How to update your problem details on the spreadsheet
+
+https://github.com/user-attachments/assets/b199cfb3-96d2-4e4a-bec4-f2f979883396
 
 ## Contribute
 
