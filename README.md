@@ -4,9 +4,73 @@
 
 ![video](https://github.com/user-attachments/assets/c59884bf-e87a-4a47-a028-e18eaf783d4a)
 
+## New Version 1.1.0
+
+The new update adds the following feature:
+
+1. Feature to update the problem details of problems already added to your spreadsheet
+
+Requirements for this new update:
+
+1. Update AppScript
+2. New Version of chrome-extension
+
+## How to update AppScript:
+
+- Your web app url remains the same even after updating your deploy
+
+https://github.com/user-attachments/assets/84484cb1-668b-4abb-afa9-b84a803c4d82
+
 ## Contribute
 
-Want to contribute to this chrom-extension? Go to this repo :[My Codeforces Journal Development](https://github.com/Dev-Code24/My-Codeforces-Journal-Development)
+Want to contribute to this Chrome extension? Check out the repository here: [My Codeforces Journal Development](https://github.com/Dev-Code24/My-Codeforces-Journal-Development).
+
+### Steps to Get Started:
+
+1. **Clone the Repository**  
+   Clone this repo to your local machine:
+
+   ```bash
+   git clone https://github.com/Dev-Code24/My-Codeforces-Journal-Development.git
+   ```
+
+2. **Navigate to the Repository Directory**  
+   Open the directory where the repo is cloned and ensure you are at the root:
+
+   ```bash
+   cd My-Codeforces-Journal-Development
+   ```
+
+3. **Create a Development Environment File**  
+   Run the following command to create an `.env.development` file:
+
+   ```bash
+   touch .env.development
+   ```
+
+4. **Add Environment Variables**  
+   Open the `.env.development` file and add the following configuration:
+
+   ```env
+   VITE_DEV_OR_PROD="development"
+   DEV_CODEFORCES_ID="your codeforces profile URL"
+   DEV_APPSCRIPT_URL="your appscript URL"
+   ```
+
+   - Replace `your codeforces profile URL` with the URL of your Codeforces profile.
+   - Replace `your appscript URL` with your Apps Script URL.
+
+5. **Run the Development Server**  
+   Start the development server:
+
+   ```bash
+   npm run dev:chrome
+   ```
+
+6. **Load the Extension in Chrome/Brave**
+   - Open Chrome or Brave and go to `chrome://extensions`.
+   - Turn on **Developer Mode** (toggle in the top-right corner).
+   - Click on **Load unpacked** and select the `dist` folder located in the root of the repo you cloned.
 
 ## Features
 
@@ -63,10 +127,9 @@ Before you can use the extension, make sure you have the following:
 #### App Script Code
 
 ```javascript
+var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
 function doPost(e) {
   try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
-
     // Parse the incoming request data
     var data;
     try {
@@ -86,7 +149,7 @@ function doPost(e) {
       return ContentService.createTextOutput(JSON.stringify({ status: "success", exists: problemExists })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // (Your existing 'initialize' and 'addProblem' logic here)
+    // Existing 'initialize' and 'addProblem' logic here
     if (data.action === "initialize") {
       var headers = ["Rating", "Problem", "Status", "Remarks", "Date", "Takeaway", "Topics"];
       if (sheet.getLastRow() === 0 || sheet.getRange("A1").getValue() === "") {
@@ -124,7 +187,7 @@ function doPost(e) {
           '{"status":"success","message":"Headers initialized with formatting, custom column widths, and row added."}'
         ).setMimeType(ContentService.MimeType.TEXT);
       } else {
-        return ContentService.createTextOutput('{"status":"success","message":"Headers already exist."}').setMimeType(ContentService.MimeType.TEXT);
+        return ContentService.createTextOutput('{"status":"success","message":"Verified !."}').setMimeType(ContentService.MimeType.TEXT);
       }
     } else if (data.action === "addProblem") {
       try {
@@ -146,8 +209,57 @@ function doPost(e) {
         );
       }
     }
+
+    // New feature: Update problem data
+    if (data.action === "updateProblem") {
+      const rows = sheet.getDataRange().getValues();
+      const problemName = data.problemName;
+
+      // Find the row with the matching problem name
+      for (let i = 0; i < rows.length; i++) {
+        if (rows[i][1] === problemName) {
+          // Assuming column B has the problem name
+          sheet.getRange(i + 1, 3).setValue(data.problemStatus); // Update "Status" in column C
+          sheet.getRange(i + 1, 4).setValue(data.remarks); // Update "Remarks" in column D
+          sheet.getRange(i + 1, 6).setValue(data.takeaways); // Update "Takeaway" in column F
+
+          return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "Problem data updated successfully." })).setMimeType(
+            ContentService.MimeType.JSON
+          );
+        }
+      }
+
+      return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Problem not found." })).setMimeType(
+        ContentService.MimeType.JSON
+      );
+    }
   } catch (error) {
     return ContentService.createTextOutput('{"status":"error","message":"' + error.message + '"}').setMimeType(ContentService.MimeType.TEXT);
+  }
+}
+
+// New feature: Handle GET requests for fetching problem data
+function doGet(e) {
+  const problemName = e.parameter.problemName;
+  const data = sheet.getDataRange().getValues();
+
+  // Find the row with the matching problem name
+  const row = data.find((row) => row[1] === problemName); // Assuming column B has the problem name
+  if (row) {
+    return ContentService.createTextOutput(
+      JSON.stringify({
+        status: "success",
+        problem: {
+          status: row[2], // Assuming "Status" is column C
+          remarks: row[3], // Assuming "Remarks" is column D
+          takeaways: row[5], // Assuming "Takeaway" is column F
+        },
+      })
+    ).setMimeType(ContentService.MimeType.JSON);
+  } else {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Problem not found." })).setMimeType(
+      ContentService.MimeType.JSON
+    );
   }
 }
 ```
