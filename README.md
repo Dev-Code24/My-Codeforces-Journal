@@ -297,5 +297,5 @@ This extension requires the following permissions:
 
 ### 3. **"Solve the problem first, then submit!" when submitting a problem to the Spreadsheet**
 
-- **Cause**: This occurs if the problem you’re trying to add has not been solved within your last 40 submissions on Codeforces.
+- **Cause**: This occurs if the problem you’re trying to add has not been solved within your last 250 submissions on Codeforces.
 - **Solution**: Ensure you’ve solved the problem recently. If not, attempt it on Codeforces before adding it to the Spreadsheet.
